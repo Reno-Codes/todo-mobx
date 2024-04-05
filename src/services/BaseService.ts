@@ -2,7 +2,7 @@ import { supabase } from "./supabaseClient";
 
 class BaseService {
     // Read todos
-    protected async fetchTodos(tableName: string): Promise<Todo[]> {
+    protected async fetch(tableName: string): Promise<Todo[]> {
         let query = supabase.from(tableName).select();
 
         const { data, error } = await query;
@@ -10,6 +10,26 @@ class BaseService {
         if (error) throw new Error(error.message);
 
         return data;
+    }
+
+    // Delete todo by ID
+    protected async delete(tableName: string, id: string): Promise<void> {
+        let query = supabase.from(tableName).delete().eq("id", id);
+
+        const { error } = await query;
+
+        if (error) throw new Error(error.message);
+    }
+
+    // Create todo
+    protected async create(tableName: string, todo: Todo) {
+        let query = supabase.from(tableName).insert(todo).single();
+
+        const { error } = await query;
+
+        if (error) throw new Error(error.message);
+
+        return "success";
     }
 }
 
