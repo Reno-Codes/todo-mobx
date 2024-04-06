@@ -12,6 +12,10 @@ class TodoService extends BaseService {
     async addTodo(todo: Todo): Promise<string> {
         return this.create("todo-mobx", todo);
     }
+
+    async updateTodo(todo: Todo): Promise<Todo[]> {
+        return this.update("todo-mobx", todo);
+    }
 }
 
 export default TodoService;

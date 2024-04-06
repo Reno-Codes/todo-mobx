@@ -31,6 +31,26 @@ class BaseService {
 
         return "success";
     }
+
+    // Update todo
+    protected async update(tableName: string, todo: Todo): Promise<Todo[]> {
+        const { id, name, description, isCompleted } = todo;
+        let query = supabase
+            .from(tableName)
+            .update({
+                name: name,
+                description: description,
+                isCompleted: isCompleted,
+            })
+            .eq("id", id)
+            .select();
+
+        const { data, error } = await query;
+
+        if (error) throw new Error(error.message);
+
+        return data;
+    }
 }
 
 export default BaseService;

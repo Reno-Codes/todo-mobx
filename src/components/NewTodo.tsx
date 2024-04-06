@@ -1,4 +1,5 @@
 import todoInputStore from "../stores/TodoInputStore";
+import todoStore from "../stores/TodoStore";
 
 function NewTodo() {
     const { name, description } = todoInputStore;
@@ -17,6 +18,24 @@ function NewTodo() {
                 placeholder="Enter a description..."
                 onChange={(e) => todoInputStore.setDescription(e.target.value)}
             />
+
+            {name && description && (
+                <button
+                    onClick={() => {
+                        const newTodo: Todo = {
+                            id: crypto.randomUUID(),
+                            name,
+                            description,
+                            isCompleted: false,
+                        };
+
+                        todoStore.createTodo(newTodo);
+                        todoInputStore.clear();
+                    }}
+                >
+                    Create
+                </button>
+            )}
         </div>
     );
 }

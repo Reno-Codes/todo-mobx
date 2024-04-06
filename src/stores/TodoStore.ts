@@ -12,6 +12,7 @@ export class TodoStore {
             readTodos: action,
             deleteTodo: action,
             createTodo: action,
+            editTodo: action,
         });
 
         this.todoService = new TodoService();
@@ -50,11 +51,27 @@ export class TodoStore {
                     this.todos.push(todo);
                 });
             } else {
-                alert("Failed to create new todo! Please try again.");
+                alert("Failed to create new todo. Please try again.");
             }
         } catch (error) {
             console.error("Error creating new todo:", error);
-            alert("Failed to create new todo! Please try again.");
+            alert("Failed to create new todo. Please try again.");
+        }
+    }
+
+    async editTodo(todo: Todo) {
+        try {
+            const data = await this.todoService.updateTodo(todo);
+            if (data) {
+                runInAction(() => {
+                    // data is only 1 todo, not a full list
+                });
+            } else {
+                alert("Failed to update todo. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error updating todo:", error);
+            alert("Failed to update todo. Please try again.");
         }
     }
 }

@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import todoStore from "../stores/TodoStore";
 import { observer } from "mobx-react";
 import NewTodo from "../components/NewTodo";
-import todoInputStore from "../stores/TodoInputStore";
+import TodoItem from "../components/TodoItem";
+import { countTodos } from "../utils/countTodos";
 
 function Home() {
     const { todos } = todoStore;
-    const { name, description } = todoInputStore;
 
     useEffect(() => {
         todoStore.readTodos();
@@ -15,33 +15,42 @@ function Home() {
     return (
         <>
             <NewTodo></NewTodo>
-            <button
-                onClick={() => {
-                    const newTodo: Todo = {
-                        id: crypto.randomUUID(),
-                        name,
-                        description,
-                        isCompleted: false,
-                    };
 
-                    todoStore.createTodo(newTodo);
-                    todoInputStore.clear();
-                }}
-            >
-                Create
-            </button>
+            <div className="todos-container">
+                {todos ? (
+                    <>
+                        <div>
+                            <p>To-do: {countTodos(todos, true)}</p>
+                            {todos
+                                .filter((todo) => !todo.isCompleted)
+                                .map((todo) => {
+                                    return (
+                                        <TodoItem
+                                            key={todo.id}
+                                            todo={todo}
+                                        ></TodoItem>
+                                    );
+                                })}
+                        </div>
 
-            {todos.map((todo) => {
-                return (
-                    <div className="todo-item" key={todo.id}>
-                        <h3>Todo name: {todo.name}</h3>
-                        <h3>Todo description: {todo.description}</h3>
-                        <h3>
-                            Completed: {todo.isCompleted ? "true" : "false"}
-                        </h3>
-                    </div>
-                );
-            })}
+                        <div>
+                            <p>Completed: {countTodos(todos, false)}</p>
+                            {todos
+                                .filter((todo) => todo.isCompleted)
+                                .map((todo) => {
+                                    return (
+                                        <TodoItem
+                                            key={todo.id}
+                                            todo={todo}
+                                        ></TodoItem>
+                                    );
+                                })}
+                        </div>
+                    </>
+                ) : (
+                    <div>No to-dos</div>
+                )}
+            </div>
         </>
     );
 }
