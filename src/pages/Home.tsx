@@ -4,8 +4,10 @@ import { observer } from "mobx-react";
 import NewTodo from "../components/NewTodo";
 import TodoItem from "../components/TodoItem";
 import { countTodos } from "../utils/countTodos";
+import "./home.css";
 
 function Home() {
+    // Store states
     const { todos } = todoStore;
 
     useEffect(() => {
@@ -17,10 +19,15 @@ function Home() {
             <NewTodo></NewTodo>
 
             <div className="todos-container">
-                {todos ? (
+                {todos.length > 0 ? (
                     <>
-                        <div>
-                            <p>To-do: {countTodos(todos, true)}</p>
+                        <div className="todos-section">
+                            <p>
+                                To-do:{" "}
+                                <span className="ongoing">
+                                    {countTodos(todos, true)}
+                                </span>
+                            </p>
                             {todos
                                 .filter((todo) => !todo.isCompleted)
                                 .map((todo) => {
@@ -33,8 +40,13 @@ function Home() {
                                 })}
                         </div>
 
-                        <div>
-                            <p>Completed: {countTodos(todos, false)}</p>
+                        <div className="todos-section">
+                            <p>
+                                Completed:{" "}
+                                <span className="completed">
+                                    {countTodos(todos, false)}
+                                </span>
+                            </p>
                             {todos
                                 .filter((todo) => todo.isCompleted)
                                 .map((todo) => {

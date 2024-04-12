@@ -1,6 +1,8 @@
 import { useState } from "react";
 import todoStore from "../stores/TodoStore";
 import "./todoItem.css";
+import { observer } from "mobx-react";
+import { useNavigate } from "react-router-dom";
 
 interface props {
     todo: Todo;
@@ -8,6 +10,7 @@ interface props {
 
 function TodoItem({ todo }: props) {
     const [isHovered, setIsHovered] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     return (
         <div
@@ -16,6 +19,7 @@ function TodoItem({ todo }: props) {
             onMouseLeave={() => setIsHovered(false)}
             key={todo.id}
         >
+            {/* Checkbox */}
             <div className="checkbox-container">
                 <input
                     type="checkbox"
@@ -28,7 +32,11 @@ function TodoItem({ todo }: props) {
                     }
                 />
             </div>
-            <div className="todo-details">
+            {/* Todo Details */}
+            <div
+                className="todo-details"
+                onClick={() => navigate(`/${todo.id}`)}
+            >
                 <p className={todo.isCompleted ? "completed-todo" : ""}>
                     {todo.name}
                 </p>
@@ -52,4 +60,4 @@ function TodoItem({ todo }: props) {
     );
 }
 
-export default TodoItem;
+export default observer(TodoItem);

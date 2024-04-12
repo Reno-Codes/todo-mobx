@@ -2,10 +2,11 @@ import todoInputStore from "../stores/TodoInputStore";
 import todoStore from "../stores/TodoStore";
 
 function NewTodo() {
+    // Store states
     const { name, description } = todoInputStore;
 
     return (
-        <div>
+        <div className="new-todo-inputs">
             <input
                 type="text"
                 value={name}

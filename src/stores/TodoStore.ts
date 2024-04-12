@@ -4,12 +4,20 @@ import TodoService from "../services/TodoService";
 export class TodoStore {
     //#region Initial states
     todos: Todo[] = [];
+    todo: Todo = {
+        id: "",
+        name: "",
+        description: "",
+        isCompleted: false,
+    };
     todoService: TodoService;
 
     constructor() {
         makeObservable(this, {
             todos: observable,
+            todo: observable,
             readTodos: action,
+            readById: action,
             deleteTodo: action,
             createTodo: action,
             editTodo: action,
@@ -28,6 +36,19 @@ export class TodoStore {
             }
         } catch (error) {
             console.error("Error fetching todos:", error);
+        }
+    }
+
+    async readById(id: string) {
+        try {
+            const data = await this.todoService.getTodo(id);
+            if (data) {
+                runInAction(() => {
+                    this.todo = data[0];
+                });
+            }
+        } catch (error) {
+            console.error("Error fetching todo by it's ID:", error);
         }
     }
 

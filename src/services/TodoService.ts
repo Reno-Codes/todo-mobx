@@ -5,6 +5,10 @@ class TodoService extends BaseService {
         return this.fetch("todo-mobx");
     }
 
+    async getTodo(id: string): Promise<Todo[]> {
+        return this.fetchById("todo-mobx", id);
+    }
+
     async deleteTodo(id: string): Promise<void> {
         return this.delete("todo-mobx", id);
     }

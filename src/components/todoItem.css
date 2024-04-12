@@ -1,9 +1,28 @@
 .todo-item {
     display: flex;
     flex-direction: row;
-    border: 1px solid white;
+    border: 2px solid rgb(0, 0, 0);
+    border-radius: 4px;
+    margin-bottom: 10px;
     max-width: 700px;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
+
+/* gumroad button shadow style */
+.todo-item:hover {
+    box-shadow: 4px 4px 0px rgb(0, 0, 0);
+    transform: translate(-4px, -4px);
+}
+
+.todo-item:active {
+    transform: translate(0);
+    box-shadow: none;
+}
+
+/* .todo-item:has(.completed-todo) {
+    border: 2px solid rgb(29, 29, 29);
+} */
 
 .checkbox-container {
     display: flex;
@@ -17,6 +36,8 @@
     flex-direction: column;
     justify-content: center;
     padding: 10px;
+    width: 100%;
+    text-decoration: none;
 }
 
 .todo-details p {
@@ -28,7 +49,7 @@
     line-height: 24px;
 }
 
-.completed-todo {
+.todo-details .completed-todo {
     text-decoration: line-through;
     color: gray;
     font-style: italic;
@@ -41,13 +62,13 @@
     margin-left: auto;
     margin-right: -30px;
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .action-buttons-container.hovered {
     margin-right: 0;
     opacity: 1;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .btn-delete {

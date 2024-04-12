@@ -3,7 +3,21 @@ import { supabase } from "./supabaseClient";
 class BaseService {
     // Read todos
     protected async fetch(tableName: string): Promise<Todo[]> {
-        let query = supabase.from(tableName).select();
+        let query = supabase
+            .from(tableName)
+            .select()
+            .order("timestamp", { ascending: true });
+
+        const { data, error } = await query;
+
+        if (error) throw new Error(error.message);
+
+        return data;
+    }
+
+    // Read todo by ID
+    protected async fetchById(tableName: string, id: string): Promise<Todo[]> {
+        let query = supabase.from(tableName).select().eq("id", id);
 
         const { data, error } = await query;
 
