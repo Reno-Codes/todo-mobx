@@ -4,8 +4,7 @@ import todoStore from "../stores/TodoStore";
 import { observer } from "mobx-react";
 import commonStore from "../stores/commonStore";
 import todoInputStore from "../stores/TodoInputStore";
-
-// TODO: Style it
+import "./todoDetails.css";
 
 function TodoDetails() {
     const { todo } = todoStore;
@@ -22,6 +21,12 @@ function TodoDetails() {
         return <div>To-do not found</div>;
     }
 
+    // If todo exists
+    useEffect(() => {
+        todoInputStore.setName(todo.name);
+        todoInputStore.setDescription(todo.description);
+    }, [todo]);
+
     return (
         <>
             <div>
@@ -32,6 +37,7 @@ function TodoDetails() {
                         <p>{todo.description}</p>
                     </div>
                 ) : (
+                    // Edit inputs
                     <>
                         <input
                             type="text"
@@ -49,6 +55,7 @@ function TodoDetails() {
                         />
                     </>
                 )}
+                {/* Edit / Confirm button */}
                 {!isEditing ? (
                     <button onClick={() => commonStore.setIsEditing(true)}>
                         Edit
