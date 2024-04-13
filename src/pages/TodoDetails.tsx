@@ -33,13 +33,14 @@ function TodoDetails() {
                 <p>{id}</p>
                 {!isEditing ? (
                     <div>
-                        <p>{todo.name}</p>
-                        <p>{todo.description}</p>
+                        <p className="todo-detail">{todo.name}</p>
+                        <p className="todo-detail">{todo.description}</p>
                     </div>
                 ) : (
                     // Edit inputs
                     <>
                         <input
+                            className="todo-input"
                             type="text"
                             defaultValue={todo.name}
                             onChange={(e) =>
@@ -47,6 +48,7 @@ function TodoDetails() {
                             }
                         />
                         <input
+                            className="todo-input"
                             type="text"
                             defaultValue={todo.description}
                             onChange={(e) =>
@@ -57,11 +59,15 @@ function TodoDetails() {
                 )}
                 {/* Edit / Confirm button */}
                 {!isEditing ? (
-                    <button onClick={() => commonStore.setIsEditing(true)}>
+                    <button
+                        className="edit-btn"
+                        onClick={() => commonStore.setIsEditing(true)}
+                    >
                         Edit
                     </button>
                 ) : (
                     <button
+                        className="edit-btn confirm"
                         onClick={() => {
                             commonStore.setIsEditing(false);
                             const newTodo = {
